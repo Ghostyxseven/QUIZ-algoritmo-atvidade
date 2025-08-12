@@ -96,11 +96,11 @@ function iniciarQuiz() {
 
     let pontos = 0;
 
-    for (const pergunta of listaTemas[temaIndex].perguntas) {
-      const opcoesFormatadas = pergunta.opcoes
-        .map((op, i) => `${i + 1} - ${op}`)
-        .join("\n");
-
+  for (const pergunta of listaTemas[temaIndex].perguntas) {
+  let opcoesFormatadas = "";
+  for (let i = 0; i < pergunta.opcoes.length; i++) {
+    opcoesFormatadas += (i + 1) + " - " + pergunta.opcoes[i] + "\n";
+  }
       const resposta = prompt(
         pergunta.pergunta + "\n" +
         opcoesFormatadas +
@@ -132,7 +132,3 @@ alert("🎯 Bem-vindo ao Quiz Divertido!\n\nTeste seus conhecimentos e veja quan
 alert("Você responderá perguntas de diferentes temas e ganhará pontos pelas respostas corretas.");
 alert("Pronto para começar?");
 iniciarQuiz();
-
-
-
-
