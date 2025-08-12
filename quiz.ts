@@ -1,4 +1,3 @@
-
 class Pergunta {
   constructor(
     public pergunta: string,
@@ -14,7 +13,10 @@ class Temas {
   ) {}
 }
 
-let cinemaClassico: Temas = new Temas(" Tema 1: Cinema Clássico", [
+// =====================
+// Temas e Perguntas
+// =====================
+let cinemaClassico: Temas = new Temas("Tema 1: Cinema Clássico", [
   new Pergunta("Qual é o nome do navio no filme \"Titanic\"?", ["Queen Mary", "Titanic", "Britannic", "Poseidon"], 1),
   new Pergunta("Quem interpreta Forrest Gump?", ["Brad Pitt", "Tom Cruise", "Tom Hanks", "Leonardo DiCaprio"], 2),
   new Pergunta("Em que ano foi lançado \"O Poderoso Chefão\"?", ["1972", "1980", "1965", "1990"], 0),
@@ -40,7 +42,7 @@ let literatura: Temas = new Temas("Tema 2: Literatura e Livros Famosos", [
   new Pergunta("Nome do detetive criado por Agatha Christie:", ["Sherlock Holmes", "Poirot", "Dupin", "Watson"], 1)
 ]);
 
-let curiosidades: Temas = new Temas(" Tema 3: Curiosidades Gerais", [
+let curiosidades: Temas = new Temas("Tema 3: Curiosidades Gerais", [
   new Pergunta("Qual é o maior animal terrestre?", ["Elefante-africano", "Urso-pardo", "Rinoceronte", "Girafa"], 0),
   new Pergunta("Qual é o metal líquido à temperatura ambiente?", ["Ferro", "Mercúrio", "Prata", "Estanho"], 1),
   new Pergunta("Quantos planetas existem no sistema solar (oficialmente)?", ["8", "9", "7", "10"], 0),
@@ -53,7 +55,7 @@ let curiosidades: Temas = new Temas(" Tema 3: Curiosidades Gerais", [
   new Pergunta("Quem pintou a \"Mona Lisa\"?", ["Van Gogh", "Leonardo da Vinci", "Picasso", "Michelangelo"], 1)
 ]);
 
-let jogos: Temas = new Temas(" Tema 4: Jogos e Cultura Gamer", [
+let jogos: Temas = new Temas("Tema 4: Jogos e Cultura Gamer", [
   new Pergunta("Qual personagem é conhecido por resgatar princesas em jogos?", ["Sonic", "Mario", "Link", "Donkey Kong"], 1),
   new Pergunta("\"The Legend of Zelda\" é exclusivo de qual empresa?", ["Sony", "Microsoft", "Nintendo", "Sega"], 2),
   new Pergunta("Em \"Minecraft\", o que explode quando se aproxima de você?", ["Creeper", "Zumbi", "Slime", "Esqueleto"], 0),
@@ -67,18 +69,25 @@ let jogos: Temas = new Temas(" Tema 4: Jogos e Cultura Gamer", [
 ]);
 
 const listaTemas: Temas[] = [cinemaClassico, literatura, curiosidades, jogos];
+
+// =====================
+// Função do jogo
+// =====================
 function iniciarQuiz() {
-  // Pede o nome do jogador
   const nomeJogador = prompt("Qual seu nome?") || "Jogador";
 
   while (true) {
-    // Escolhe tema ou sai
-    const temaIndex = +prompt(
-      `Olá ${nomeJogador}! Escolha um tema (0 para sair):\n` +
-      listaTemas.map((t, i) => `${i + 1} - ${t.nome}`).join("\n")
-    )! - 1;
+    // Monta lista de temas
+    const listaFormatada = listaTemas
+      .map((t, i) => `${i + 1} - ${t.nome}`)
+      .join("\n");
 
-    if (temaIndex === -1) break; // Saiu do jogo
+    // Pergunta o tema
+    let escolha = prompt(`Olá ${nomeJogador}! Escolha um tema (0 para sair):\n${listaFormatada}`);
+
+    if (!escolha || escolha === "0") break; // Sai do jogo
+
+    const temaIndex = Number(escolha) - 1;
 
     if (!listaTemas[temaIndex]) {
       alert("Tema inválido! Tente novamente.");
@@ -88,15 +97,19 @@ function iniciarQuiz() {
     let pontos = 0;
 
     for (const pergunta of listaTemas[temaIndex].perguntas) {
-      const resposta = +prompt(
+      const opcoesFormatadas = pergunta.opcoes
+        .map((op, i) => `${i + 1} - ${op}`)
+        .join("\n");
+
+      const resposta = prompt(
         pergunta.pergunta + "\n" +
-        pergunta.opcoes.map((op, i) => `${i + 1} - ${op}`).join("\n") +
+        opcoesFormatadas +
         "\n0 - Sair do tema"
-      )! - 1;
+      );
 
-      if (resposta === -1) break; // Saiu do tema
+      if (!resposta || resposta === "0") break; // Sai do tema
 
-      if (resposta === pergunta.respostaCorreta) {
+      if (Number(resposta) - 1 === pergunta.respostaCorreta) {
         alert("✅ Acertou!");
         pontos++;
       } else {
@@ -111,8 +124,11 @@ function iniciarQuiz() {
 
   alert(`🎉 Obrigado por jogar, ${nomeJogador}!`);
 }
+
+// =====================
+// Introdução e início
+// =====================
 alert("🎯 Bem-vindo ao Quiz Divertido!\n\nTeste seus conhecimentos e veja quantos pontos consegue fazer!");
 alert("Você responderá perguntas de diferentes temas e ganhará pontos pelas respostas corretas.");
 alert("Pronto para começar?");
-
 iniciarQuiz();
