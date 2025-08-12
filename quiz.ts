@@ -75,24 +75,24 @@ const listaTemas: Temas[] = [cinemaClassico, literatura, curiosidades, jogos];
 // =====================
 function iniciarQuiz() {
   const nomeJogador = prompt("Qual seu nome?") || "Jogador";
-
   while (true) {
-    // Monta lista de temas
-    const listaFormatada = listaTemas
-      .map((t, i) => `${i + 1} - ${t.nome}`)
-      .join("\n");
+  // Monta lista de temas só com os nomes
+  const listaFormatada = listaTemas
+    .map(function(tema) {
+      return tema.nome;
+    })
+    .join("\n");
 
-    // Pergunta o tema
-    let escolha = prompt(`Olá ${nomeJogador}! Escolha um tema (0 para sair):\n${listaFormatada}`);
+  let escolha = prompt(`Olá ${nomeJogador}! Escolha um tema (0 para sair):\n${listaFormatada}`);
 
-    if (!escolha || escolha === "0") break; // Sai do jogo
+  if (!escolha || escolha === "0") break; // Sai do jogo
 
-    const temaIndex = Number(escolha) - 1;
+  const temaIndex = Number(escolha) - 1;
 
-    if (!listaTemas[temaIndex]) {
-      alert("Tema inválido! Tente novamente.");
-      continue;
-    }
+  if (!listaTemas[temaIndex]) {
+    alert("Tema inválido! Tente novamente.");
+    continue;
+  }
 
     let pontos = 0;
 
@@ -132,3 +132,7 @@ alert("🎯 Bem-vindo ao Quiz Divertido!\n\nTeste seus conhecimentos e veja quan
 alert("Você responderá perguntas de diferentes temas e ganhará pontos pelas respostas corretas.");
 alert("Pronto para começar?");
 iniciarQuiz();
+
+
+
+
